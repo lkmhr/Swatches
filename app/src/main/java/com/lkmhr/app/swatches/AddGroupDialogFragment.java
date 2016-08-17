@@ -3,6 +3,7 @@ package com.lkmhr.app.swatches;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class AddGroupDialogFragment extends DialogFragment {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!name.getText().toString().equals("")) {
+                if(!name.getText().toString().isEmpty()) {
                     DatabaseHandler db = new DatabaseHandler(getActivity());
 
                     db.addGroup(new ColorGroup(name.getText().toString(), desc.getText().toString()));
@@ -37,6 +38,9 @@ public class AddGroupDialogFragment extends DialogFragment {
                     AddGroupDialogListener activity = (AddGroupDialogListener) getActivity();
                     activity.onAddGroup(new ColorGroup(name.getText().toString(),desc.getText().toString()));
                     dismiss();
+                } else {
+                    name.requestFocus();
+                    name.setError("Name should not be blank!");
                 }
             }
         });
@@ -52,6 +56,7 @@ public class AddGroupDialogFragment extends DialogFragment {
     }
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         Dialog dialog = super.onCreateDialog(savedInstanceState);

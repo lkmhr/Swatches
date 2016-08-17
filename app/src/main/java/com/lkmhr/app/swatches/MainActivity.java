@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.lkmhr.app.swatches.com.lkmhr.app.swatches.dbutils.DatabaseHandler;
 import com.lkmhr.app.swatches.com.lkmhr.app.swatches.utils.ColorGroup;
@@ -25,13 +23,12 @@ public class MainActivity extends AppCompatActivity implements AddGroupDialogFra
     RecyclerView recyclerList;
     GroupAdapter groupAdapter;
     List<ColorGroup> groups;
+    View empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         DatabaseHandler db = new DatabaseHandler(this);
@@ -40,6 +37,11 @@ public class MainActivity extends AppCompatActivity implements AddGroupDialogFra
         groupAdapter = new GroupAdapter(this, groups);
 
         recyclerList = (RecyclerView) findViewById(R.id.recyclerList);
+        empty = (View) findViewById(R.id.empty);
+        if(groups.size() == 0) {
+            recyclerList.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
+        }
 
         if(recyclerList!=null) {
             recyclerList.setAdapter(groupAdapter);
@@ -59,29 +61,12 @@ public class MainActivity extends AppCompatActivity implements AddGroupDialogFra
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onAddGroup(ColorGroup colorGroup) {
         if(groups != null) {
+
+            empty.setVisibility(View.GONE);
+            recyclerList.setVisibility(View.VISIBLE);
+
             groups.add(colorGroup);
             groupAdapter.notifyDataSetChanged();
         }
@@ -117,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements AddGroupDialogFra
     public void onDeleteGroup(int position) {
         groups.remove(position);
         groupAdapter.notifyDataSetChanged();
+
+        if(groups.size()==0) {
+            empty.setVisibility(View.VISIBLE);
+            recyclerList.setVisibility(View.GONE);
+        }
     }
 
     @Override

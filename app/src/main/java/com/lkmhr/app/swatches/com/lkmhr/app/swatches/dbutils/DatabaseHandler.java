@@ -148,7 +148,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, color.getName());
-        values.put(KEY_DESC, color.getHexCode());
+        values.put(KEY_CODE, color.getHexCode());
 
         // updating row
         return db.update(TABLE_SWATCH_COLOR, values, KEY_ID + " = ?",
@@ -156,9 +156,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void deleteGroup(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
         deleteAllColors(id);
+
+        SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_SWATCH_GROUP, KEY_ID + " = ?",
                 new String[] { String.valueOf(id) });

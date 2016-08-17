@@ -23,18 +23,18 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="4dp"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name"
-            android:layout_below="@+id/color"
-            android:textSize="12sp"
-            />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/name"-->
+            <!--android:layout_below="@+id/color"-->
+            <!--android:textSize="12sp"-->
+            <!--/>-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/code"
-            android:layout_below="@+id/name"
+            android:layout_below="@+id/color"
             android:textSize="12sp"
             />
     </RelativeLayout>

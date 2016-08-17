@@ -26,7 +26,6 @@ public class DeleteGroupDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.dialog_delete_group, container, false);
 
         colorGroup = getArguments().getParcelable("GROUP");
-
         position = getArguments().getInt("INDEX");
 
         final Button save = (Button) v.findViewById(R.id.save);
@@ -42,7 +41,7 @@ public class DeleteGroupDialogFragment extends DialogFragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!name.getText().toString().equals("")) {
+                if(!name.getText().toString().isEmpty()) {
                     DatabaseHandler db = new DatabaseHandler(getActivity());
                     colorGroup.setName(name.getText().toString());
                     colorGroup.setDescription(desc.getText().toString());
@@ -52,6 +51,9 @@ public class DeleteGroupDialogFragment extends DialogFragment {
                     activity.onModifyGroup(colorGroup, position);
 
                     dismiss();
+                }  else {
+                    name.requestFocus();
+                    name.setError("Name should not be blank!");
                 }
             }
         });
@@ -90,8 +92,8 @@ public class DeleteGroupDialogFragment extends DialogFragment {
     }
 
     public interface DeleteGroupDialogListener {
-        void onDeleteGroup(int positioon);
-        void onModifyGroup(ColorGroup colorGroup, int positioon);
+        void onDeleteGroup(int position);
+        void onModifyGroup(ColorGroup colorGroup, int position);
     }
 
 }
